@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhanu Pratap — QA Automation Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111113;
+    --bg3: #1a1a1e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0efe8;
+    --muted: #888784;
+    --accent: #c8f04a;
+    --accent2: #7effd4;
+    --accent3: #ff8c5a;
+    --card-bg: #131316;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 8px 18px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #0a0a0b; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 5% 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,240,74,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .hero h1 .line2 { color: var(--accent); display: block; }
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: #0a0a0b;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #d4f55c; transform: translateY(-1px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 28px;
+    border: 1px solid var(--border2);
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Hero right — photo + stats */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+
+  /* Animated photo card */
+  .hero-photo-outer {
+    position: relative;
+    border-radius: 24px;
+  }
+  /* Rotating gradient border */
+  .hero-photo-outer::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 26px;
+    background: conic-gradient(from var(--angle, 0deg), #c8f04a, #7effd4, #ff8c5a, #c8f04a);
+    animation: spin-border 4s linear infinite;
+    z-index: 0;
+  }
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes spin-border {
+    to { --angle: 360deg; }
+  }
+  .hero-photo-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 500px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--card-bg);
+  }
+  .hero-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .hero-photo-outer:hover .hero-photo-wrap img {
+    transform: scale(1.04);
+  }
+  /* Overlay gradient at bottom of photo */
+  .hero-photo-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to top, rgba(10,10,11,0.85), transparent);
+    z-index: 2;
+    pointer-events: none;
+  }
+  /* Floating badge on photo */
+  .photo-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10,10,11,0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(200,240,74,0.25);
+    border-radius: 30px;
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    animation: float-badge 3s ease-in-out infinite;
+  }
+  @keyframes float-badge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .photo-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  /* Stats row below photo */
+  .hero-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,240,74,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .stat-card:hover { border-color: rgba(200,240,74,0.3); transform: translateY(-2px); }
+  .stat-card:hover::before { opacity: 1; }
+  .stat-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .stat-icon.green { background: rgba(200,240,74,0.1); }
+  .stat-icon.teal { background: rgba(126,255,212,0.1); }
+  .stat-icon.orange { background: rgba(255,140,90,0.1); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  /* SECTION COMMON */
+  section { padding: 100px 5%; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+    line-height: 1.1;
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .skill-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+  }
+  .skill-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .skill-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .skill-dot.teal { background: var(--accent2); }
+  .skill-dot.orange { background: var(--accent3); }
+  .skill-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .skill-type {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-clr, var(--accent)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-industry {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .tag-edu { background: rgba(200,240,74,0.1); color: var(--accent); }
+  .tag-fin { background: rgba(126,255,212,0.1); color: var(--accent2); }
+  .tag-gov { background: rgba(255,140,90,0.1); color: var(--accent3); }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .project-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .stack-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+  .project-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .metric { }
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .metric-key {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* PROCESS */
+  #process { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::after {
+    content: '';
+    position: absolute;
+    top: 28px; left: 5%; right: 5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), var(--border2), transparent);
+    z-index: 0;
+  }
+  .process-step {
+    padding: 0 24px 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: all 0.2s;
+  }
+  .service-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .service-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* TESTIMONIAL / HIGHLIGHT */
+  .highlight-band {
+    background: var(--accent);
+    color: #0a0a0b;
+    padding: 60px 5%;
+    text-align: center;
+  }
+  .highlight-band h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    max-width: 700px;
+    margin: 0 auto 24px;
+  }
+  .highlight-band p {
+    font-size: 16px;
+    opacity: 0.75;
+    max-width: 500px;
+    margin: 0 auto 32px;
+  }
+  .btn-dark {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 30px;
+    background: #0a0a0b;
+    color: var(--accent);
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .btn-dark:hover { background: #1a1a1e; }
+
+  /* CONTACT */
+  #contact { background: var(--bg); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .contact-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .contact-info p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    padding: 14px 18px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-link-icon { font-size: 18px; }
+  .contact-link-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); display: block; }
+  .contact-link-val { font-size: 14px; color: var(--text); }
+  .contact-form { display: flex; flex-direction: column; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-input, .form-textarea {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+  .form-submit {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: #0a0a0b;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: #d4f55c; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* STATUS BADGE */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    background: rgba(200,240,74,0.1);
+    border: 1px solid rgba(200,240,74,0.2);
+    border-radius: 20px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    margin: 0 5%;
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-right { display: none; }
+    .nav-links { display: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .process-steps::after { display: none; }
+  }
+
+  /* ===== ADVANCED ANIMATIONS ===== */
+
+  /* Typewriter cursor on h1 */
+  .hero h1 { position: relative; }
+
+  /* Glitch effect on hover for name */
+  @keyframes glitch1 {
+    0%,100% { clip-path: inset(0 0 95% 0); transform: translate(-2px,0); }
+    20% { clip-path: inset(30% 0 50% 0); transform: translate(2px,0); }
+    40% { clip-path: inset(60% 0 20% 0); transform: translate(-1px,0); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translate(1px,0); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px,0); }
+  }
+  @keyframes glitch2 {
+    0%,100% { clip-path: inset(50% 0 30% 0); transform: translate(2px,0); color: #7effd4; }
+    25% { clip-path: inset(20% 0 60% 0); transform: translate(-2px,0); color: #ff8c5a; }
+    50% { clip-path: inset(70% 0 10% 0); transform: translate(1px,0); color: #7effd4; }
+    75% { clip-path: inset(5% 0 80% 0); transform: translate(-1px,0); color: #ff8c5a; }
+  }
+  .hero h1:hover .line2::before,
+  .hero h1:hover .line2::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  .hero h1:hover .line2::before { animation: glitch1 0.4s steps(1) infinite; }
+  .hero h1:hover .line2::after  { animation: glitch2 0.4s steps(1) infinite; }
+
+  /* Floating orbs background */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    animation: orb-drift 8s ease-in-out infinite;
+  }
+  .hero-orb-1 {
+    width: 300px; height: 300px;
+    background: rgba(200,240,74,0.06);
+    top: 10%; left: -5%;
+    animation-delay: 0s;
+  }
+  .hero-orb-2 {
+    width: 200px; height: 200px;
+    background: rgba(126,255,212,0.05);
+    bottom: 20%; right: 10%;
+    animation-delay: -3s;
+  }
+  .hero-orb-3 {
+    width: 150px; height: 150px;
+    background: rgba(255,140,90,0.04);
+    top: 50%; left: 40%;
+    animation-delay: -5s;
+  }
+  @keyframes orb-drift {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(20px,-30px) scale(1.05); }
+    66% { transform: translate(-15px,20px) scale(0.95); }
+  }
+
+  /* Scan line on photo */
+  .hero-photo-wrap::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(200,240,74,0.6), transparent);
+    z-index: 3;
+    animation: scan-line 3s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes scan-line {
+    0% { top: -2%; }
+    100% { top: 102%; }
+  }
+
+  /* Corner brackets on photo */
+  .hero-photo-outer::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 18px;
+    background: transparent;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .bracket-tl, .bracket-tr, .bracket-bl, .bracket-br {
+    position: absolute;
+    width: 20px; height: 20px;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .bracket-tl { top: 6px; left: 6px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); border-radius: 4px 0 0 0; }
+  .bracket-tr { top: 6px; right: 6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); border-radius: 0 4px 0 0; }
+  .bracket-bl { bottom: 6px; left: 6px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); border-radius: 0 0 0 4px; }
+  .bracket-br { bottom: 6px; right: 6px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); border-radius: 0 0 4px 0; }
+
+  /* Shimmer on skill cards */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .skill-item:hover .skill-name {
+    background: linear-gradient(90deg, var(--text) 0%, var(--accent) 50%, var(--text) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 1.2s linear;
+  }
+
+  /* Counter animation */
+  .stat-num { display: inline-block; }
+
+  /* Reveal animation for sections */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-left.visible, .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Magnetic button effect */
+  .btn-primary, .btn-ghost {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+
+  /* Pulsing ring around status badge */
+  .status-badge {
+    position: relative;
+  }
+  .status-badge::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 30px;
+    background: transparent;
+    border: 1px solid rgba(200,240,74,0.15);
+    animation: badge-pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%,100% { opacity: 0; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+
+  /* Animated underline for section titles */
+  .section-title {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Project card number indicator */
+  .project-num {
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* Ticker bar */
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    background: var(--bg2);
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 25s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .ticker-item span { color: var(--accent); }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Glow on accent elements */
+  .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(200,240,74,0.3), 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .nav-cta:hover {
+    box-shadow: 0 0 15px rgba(200,240,74,0.2);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">BP<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:bhanuchandrawat1920@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-left">
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      Available for freelance · contract · full-time
+    </div>
+    <div class="hero-eyebrow">QA Automation Engineer</div>
+    <h1>
+      Bhanu
+      <span class="line2" data-text="Pratap.">Pratap.</span>
+    </h1>
+    <p class="hero-desc">
+      1.5+ years breaking software before users do. 7+ projects delivered across EdTech, FinTech &amp; US Federal sectors. I specialize in Selenium with Java automation, API testing, and performance engineering — turning fragile releases into confident deployments.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="mailto:bhanuchandrawat1920@gmail.com" class="btn-ghost">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-outer">
+    <div class="bracket-tl"></div>
+    <div class="bracket-tr"></div>
+    <div class="bracket-bl"></div>
+    <div class="bracket-br"></div>
+    <div class="hero-photo-wrap fade-up">
+      <img src="images/bhanu.jpeg" alt="Bhanu Pratap" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+      <div class="stat-card fade-up" style="transition-delay:0.1s">
+        <div class="stat-icon green">🧪</div>
+        <div>
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Projects delivered</div>
+        </div>
+      </div>
+      <div class="stat-card fade-up" style="transition-delay:0.2s">
+        <div class="stat-icon teal">🌍</div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Industries served</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="ticker-item">Selenium with Java <span>✦</span></div>
+    <div class="ticker-item">API Testing <span>✦</span></div>
+    <div class="ticker-item">Manual Testing <span>✦</span></div>
+    <div class="ticker-item">CI/CD Pipelines <span>✦</span></div>
+    <div class="ticker-item">Postman <span>✦</span></div>
+    <div class="ticker-item">JIRA <span>✦</span></div>
+    <div class="ticker-item">Git / GitHub <span>✦</span></div>
+    <div class="ticker-item">7+ Projects Delivered <span>✦</span></div>
+    <div class="ticker-item">EdTech · FinTech · GovTech <span>✦</span></div>
+    <div class="ticker-item">Selenium with Java <span>✦</span></div>
+    <div class="ticker-item">API Testing <span>✦</span></div>
+    <div class="ticker-item">Manual Testing <span>✦</span></div>
+    <div class="ticker-item">CI/CD Pipelines <span>✦</span></div>
+    <div class="ticker-item">Postman <span>✦</span></div>
+    <div class="ticker-item">JIRA <span>✦</span></div>
+    <div class="ticker-item">Git / GitHub <span>✦</span></div>
+    <div class="ticker-item">7+ Projects Delivered <span>✦</span></div>
+    <div class="ticker-item">EdTech · FinTech · GovTech <span>✦</span></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Technical Arsenal</div>
+  <h2 class="section-title">Skills & Tools</h2>
+  <p class="section-sub">A full-stack QA toolkit — from writing test cases to automating pipelines and load testing APIs at scale.</p>
+  <div class="skills-grid">
+    <div class="skill-item fade-up">
+      <span class="skill-dot"></span>
+      <div>
+        <div class="skill-name">Selenium with Java</div>
+        <div class="skill-type">E2E Automation</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot teal"></span>
+      <div>
+        <div class="skill-name">Postman / REST</div>
+        <div class="skill-type">API Testing</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot orange"></span>
+      <div>
+        <div class="skill-name">Manual Testing</div>
+        <div class="skill-type">Functional & Exploratory</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot"></span>
+      <div>
+        <div class="skill-name">JIRA</div>
+        <div class="skill-type">Bug Tracking & Agile</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot teal"></span>
+      <div>
+        <div class="skill-name">Git / GitHub</div>
+        <div class="skill-type">Version Control</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot orange"></span>
+      <div>
+        <div class="skill-name">Jenkins / GitHub Actions</div>
+        <div class="skill-type">CI/CD Pipelines</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot"></span>
+      <div>
+        <div class="skill-name">Test Plan Writing</div>
+        <div class="skill-type">Strategy & Documentation</div>
+      </div>
+    </div>
+    <div class="skill-item fade-up">
+      <span class="skill-dot teal"></span>
+      <div>
+        <div class="skill-name">Regression Testing</div>
+        <div class="skill-type">Release Validation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Case Studies</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <p class="section-sub">7+ projects delivered across EdTech, FinTech, and US Federal government — three industries with zero tolerance for defects.</p>
+  <div class="projects-grid">
+
+    <!-- Project 1: ERP Education -->
+    <div class="project-card fade-up" style="--accent-clr: #c8f04a"><span class="project-num">01</span>
+      <span class="project-industry tag-edu">EdTech / ERP</span>
+      <h3 class="project-title">Global School ERP Platform</h3>
+      <p class="project-desc">
+        End-to-end QA for a comprehensive ERP solution serving schools worldwide. Covered student management, attendance, fee collection, academics, and multi-role portals. Tested across 10+ modules with complex permission hierarchies and multi-language support.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Selenium (Java)</span>
+        <span class="stack-tag">Postman</span>
+        <span class="stack-tag">Manual Testing</span>
+        <span class="stack-tag">JIRA</span>
+        <span class="stack-tag">API Testing</span>
+        <span class="stack-tag">Regression</span>
+      </div>
+      <div class="project-metrics">
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent)">10+</div>
+          <div class="metric-key">Modules tested</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent)">Multi-role</div>
+          <div class="metric-key">Admin, Teacher, Student, Parent</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent)">Global</div>
+          <div class="metric-key">International schools scope</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent)">CI/CD</div>
+          <div class="metric-key">Automated pipeline integration</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2: Financial -->
+    <div class="project-card fade-up" style="--accent-clr: #7effd4; transition-delay: 0.1s"><span class="project-num">02</span>
+      <span class="project-industry tag-fin">FinTech / Investments</span>
+      <h3 class="project-title">Investment & Mutual Funds Platform</h3>
+      <p class="project-desc">
+        QA for a financial platform handling mutual funds, SIPs, portfolio tracking, and live investment data. Validated real-time data accuracy, transaction flows, KYC processes, and edge cases in SIP scheduling — where errors mean real money.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">API Testing</span>
+        <span class="stack-tag">Postman</span>
+        <span class="stack-tag">Selenium (Java)</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">Data Validation</span>
+        <span class="stack-tag">Security Testing</span>
+      </div>
+      <div class="project-metrics">
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent2)">Real-time</div>
+          <div class="metric-key">API data accuracy validation</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent2)">SIP / MF</div>
+          <div class="metric-key">Transaction flows tested</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent2)">KYC</div>
+          <div class="metric-key">Compliance flows verified</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent2)">Zero</div>
+          <div class="metric-key">Critical bugs post-release</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3: Federal USA -->
+    <div class="project-card fade-up" style="--accent-clr: #ff8c5a; transition-delay: 0.2s"><span class="project-num">03</span>
+      <span class="project-industry tag-gov">US Federal / GovTech</span>
+      <h3 class="project-title">US Energy Consumption Portal</h3>
+      <p class="project-desc">
+        QA engineering for a US federal government platform tracking national energy consumption data. Ensured data integrity across reporting dashboards, validated API integrations with government data sources, and performed compliance and accessibility testing.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Manual Testing</span>
+        <span class="stack-tag">API Testing</span>
+        <span class="stack-tag">Data Integrity</span>
+        <span class="stack-tag">Jenkins</span>
+        <span class="stack-tag">Accessibility Testing</span>
+        <span class="stack-tag">Compliance</span>
+      </div>
+      <div class="project-metrics">
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent3)">Federal</div>
+          <div class="metric-key">US government client</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent3)">Data</div>
+          <div class="metric-key">Integrity & accuracy validated</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent3)">A11y</div>
+          <div class="metric-key">Accessibility compliance</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="color: var(--accent3)">Gov-grade</div>
+          <div class="metric-key">Security standards met</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-label">How I Work</div>
+  <h2 class="section-title">My QA Process</h2>
+  <p class="section-sub">A structured approach that catches bugs early and keeps your release cycle fast and reliable.</p>
+  <div class="process-steps">
+    <div class="process-step fade-up">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery & Planning</div>
+      <div class="step-desc">Understand requirements, define scope, write a test strategy and test plan tailored to your product and risks.</div>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.1s">
+      <div class="step-num">02</div>
+      <div class="step-title">Test Case Design</div>
+      <div class="step-desc">Write clear, reusable test cases covering functional, edge, and negative scenarios. Documented in JIRA or your preferred tool.</div>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.2s">
+      <div class="step-num">03</div>
+      <div class="step-title">Execution & Automation</div>
+      <div class="step-desc">Manual exploratory testing + Selenium with Java automation suites + Postman API collections. Integrated into your CI/CD pipeline.</div>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.3s">
+      <div class="step-num">04</div>
+      <div class="step-title">Bug Reporting</div>
+      <div class="step-desc">Detailed bug reports with severity, reproducible steps, screenshots, and environment info. Clear enough for any developer to fix fast.</div>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.4s">
+      <div class="step-num">05</div>
+      <div class="step-title">Sign-off & Handover</div>
+      <div class="step-desc">Final test summary report, regression pass confirmation, and handover of all test assets for your team to maintain.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Offer</div>
+  <h2 class="section-title">Services</h2>
+  <p class="section-sub">Flexible QA services for startups and enterprises — from one-time audits to long-term quality partnerships.</p>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-icon">🤖</div>
+      <div class="service-title">Test Automation</div>
+      <div class="service-desc">Selenium with Java E2E automation suites for web apps. Reduce regression time from hours to minutes. Integrated with GitHub Actions or Jenkins.</div>
+    </div>
+    <div class="service-card fade-up" style="transition-delay:0.1s">
+      <div class="service-icon">🔌</div>
+      <div class="service-title">API Testing</div>
+      <div class="service-desc">Full REST API validation using Postman. Functional, data integrity, authentication, and negative test coverage. Automated collection runs.</div>
+    </div>
+    <div class="service-card fade-up" style="transition-delay:0.2s">
+      <div class="service-icon">🧩</div>
+      <div class="service-title">Manual & Exploratory Testing</div>
+      <div class="service-desc">Deep functional, usability, and exploratory testing. Catch what automated tools miss — edge cases, UX issues, and real-world user flows.</div>
+    </div>
+    <div class="service-card fade-up" style="transition-delay:0.3s">
+      <div class="service-icon">🚀</div>
+      <div class="service-title">CI/CD Pipeline Integration</div>
+      <div class="service-desc">Set up automated test runs in your deployment pipeline. Tests run on every commit so bugs are caught before they hit production.</div>
+    </div>
+    <div class="service-card fade-up" style="transition-delay:0.4s">
+      <div class="service-icon">📋</div>
+      <div class="service-title">QA Audit & Strategy</div>
+      <div class="service-desc">Review your current QA process and deliver a prioritized improvement roadmap. Great for teams that need a QA foundation fast.</div>
+    </div>
+    <div class="service-card fade-up" style="transition-delay:0.5s">
+      <div class="service-icon">🔄</div>
+      <div class="service-title">Monthly QA Retainer</div>
+      <div class="service-desc">Ongoing QA partner for your product. Covers sprint testing, regression cycles, and test maintenance. Fixed monthly rate, predictable quality.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="highlight-band">
+  <h2>Ready to ship software with confidence?</h2>
+  <p>Let's talk about your project. I respond within 24 hours.</p>
+  <a href="mailto:bhanuchandrawat1920@gmail.com" class="btn-dark">Start a Conversation →</a>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Let's Work Together</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Bhanu Pratap Singh Chandrawat</h3>
+      <p>Open to freelance projects, short-term contracts, full-time roles, and long-term QA partnerships. Based in India — available for clients worldwide across all time zones.</p>
+      <div class="contact-links">
+        <a href="mailto:bhanuchandrawat1920@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div>
+            <span class="contact-link-label">Email</span>
+            <span class="contact-link-val">bhanuchandrawat1920@gmail.com</span>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/bhanu-pratap-singh-chandrawat-5bb574365" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          <div>
+            <span class="contact-link-label">LinkedIn</span>
+            <span class="contact-link-val">bhanu-pratap-singh-chandrawat</span>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <span class="contact-link-icon">📍</span>
+          <div>
+            <span class="contact-link-label">Location</span>
+            <span class="contact-link-val">India · Available Worldwide · Remote</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="John Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="john@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project Type</label>
+          <input type="text" class="form-input" placeholder="e.g. API testing, Selenium automation...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" rows="4" placeholder="Tell me about your project, timeline, and budget..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BP<span>.</span></div>
+  <div class="footer-copy">© 2026 Bhanu Pratap · QA Automation Engineer</div>
+  <div class="footer-links">
+    <a href="mailto:bhanuchandrawat1920@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/bhanu-pratap-singh-chandrawat-5bb574365" target="_blank">LinkedIn</a>
+    <a href="#home">Back to top</a>
+  </div>
+</footer>
+
+<script>
+  // Animated counter
+  function animateCounter(el, target, suffix) {
+    const isNum = !isNaN(parseInt(target));
+    if (!isNum) return;
+    const end = parseInt(target);
+    let start = 0;
+    const dur = 1200;
+    const step = Math.ceil(end / (dur / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { start = end; clearInterval(timer); }
+      el.textContent = start + (suffix || '');
+    }, 16);
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        // Trigger counter for stat numbers
+        const num = el.target.querySelector('.stat-num');
+        if (num && !num.dataset.counted) {
+          num.dataset.counted = '1';
+          const txt = num.textContent.trim();
+          const suffix = txt.includes('+') ? '+' : '';
+          animateCounter(num, txt, suffix);
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Reveal left/right
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+  // Mouse parallax on hero photo
+  const heroPhoto = document.querySelector('.hero-photo-outer');
+  if (heroPhoto) {
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 8;
+      const y = (e.clientY / window.innerHeight - 0.5) * 8;
+      heroPhoto.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${-y}deg)`;
+    });
+    document.addEventListener('mouseleave', () => {
+      heroPhoto.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+    });
+  }
+
+  // Cursor glow
+  const cursor = document.createElement('div');
+  cursor.style.cssText = 'position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(200,240,74,0.15);border:1px solid rgba(200,240,74,0.4);pointer-events:none;z-index:9998;transition:transform 0.1s,opacity 0.3s;transform:translate(-50%,-50%);';
+  document.body.appendChild(cursor);
+  const cursorGlow = document.createElement('div');
+  cursorGlow.style.cssText = 'position:fixed;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(200,240,74,0.04),transparent);pointer-events:none;z-index:9997;transition:transform 0.3s;transform:translate(-50%,-50%);';
+  document.body.appendChild(cursorGlow);
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .skill-item, .project-card, .service-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1.8)'; cursor.style.background = 'rgba(200,240,74,0.25)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursor.style.background = 'rgba(200,240,74,0.15)'; });
+  });
+
+
+  // Trigger hero items on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 200 + i * 120);
+    });
+  });
+
+  // Contact form handler
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = 'var(--accent2)';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#'+current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
